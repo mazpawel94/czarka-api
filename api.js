@@ -17,6 +17,11 @@ router.get('/reservations', async(req, res) => {
     const reservations = await collection.find({}).project({name: 0}).toArray();
     res.status(200).send(reservations);
 })
+router.get('/reservations-for-czarkonauci', async(req, res) => {
+    const collection = await loadDB('reservations');
+    const reservations = await collection.find({}).toArray();
+    res.status(200).send(reservations);
+})
 
 router.post('/reservations', async(req, res) => {
     const collection = await loadDB('reservations');
