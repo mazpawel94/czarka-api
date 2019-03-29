@@ -23,10 +23,29 @@ router.get("/reservations", async (req, res) => {
     .toArray();
   res.status(200).send(reservations);
 });
+
 router.get("/reservations-for-czarkonauci", async (req, res) => {
   const collection = await loadDB("reservations");
   const reservations = await collection.find({}).toArray();
   res.status(200).send(reservations);
+});
+
+router.put("/reservations-for-czarkonauci", async (req, res) => {
+  const collection = await loadDB("reservations");
+  const reservations = await collection.update(
+    {
+      _id: new mongodb.ObjectID(req.body.id)
+    },
+    {
+      $set: {
+        date: req.body.day,
+        hour: req.body.hour,
+        name: req.body.name,
+        table: req.body.table
+      }
+    }
+  );
+  res.status(201).send(reservations);
 });
 
 router.delete("/reservations-for-czarkonauci", async (req, res) => {
