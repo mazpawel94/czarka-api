@@ -41,7 +41,8 @@ router.put("/reservations-for-czarkonauci", async (req, res) => {
         date: req.body.day,
         hour: req.body.hour,
         name: req.body.name,
-        table: req.body.table
+        table: req.body.table,
+        note: req.body.note
       }
     }
   );
@@ -63,7 +64,7 @@ router.post("/reservations", async (req, res) => {
     hour: req.body.hour,
     name: req.body.name,
     table: req.body.table,
-    amount: req.body.numberPeople
+    note: req.body.note
   });
   res.status(201).send(req.body.name);
 });
