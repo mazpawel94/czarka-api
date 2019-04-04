@@ -75,4 +75,34 @@ router.get("/tables-live", async (req, res) => {
   res.status(200).send(busy);
 });
 
+router.post("/tea-available", async (req, res) => {
+  const collection = await loadDB("teas");
+  await collection.insertOne({
+    tea: req.body.tea,
+    available: req.body.available
+  });
+  res.status(201).send(req.body.name);
+});
+
+router.get("/tea-available", async (req, res) => {
+  const collection = await loadDB("teas");
+  const notAvailable = await collection.find({ available: "false" }).toArray();
+  res.status(200).send(notAvailable);
+});
+
+router.put("/tea-available", async (req, res) => {
+  const collection = await loadDB("teas");
+  const tea = await collection.update(
+    {
+      tea: req.body.tea
+    },
+    {
+      $set: {
+        available: req.body.available
+      }
+    }
+  );
+  res.status(201).send(tea);
+});
+
 module.exports = router;
