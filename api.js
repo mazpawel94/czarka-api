@@ -42,7 +42,7 @@ router.put("/reservations-for-czarkonauci", async (req, res) => {
         hour: req.body.hour,
         name: req.body.name,
         table: req.body.table,
-        note: req.body.note
+        guests: req.body.guests
       }
     }
   );
@@ -57,14 +57,14 @@ router.delete("/reservations-for-czarkonauci", async (req, res) => {
   res.status(200).send(reservations);
 });
 
-router.post("/reservations", async (req, res) => {
+router.post("/reservations-for-czarkonauci", async (req, res) => {
   const collection = await loadDB("reservations");
   await collection.insertOne({
     date: req.body.day,
     hour: req.body.hour,
     name: req.body.name,
     table: req.body.table,
-    note: req.body.note
+    guests: req.body.guests
   });
   res.status(201).send(req.body.name);
 });
