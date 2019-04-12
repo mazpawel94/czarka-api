@@ -25,12 +25,20 @@ router.get("/reservations", async (req, res) => {
 });
 
 router.get("/reservations-for-czarkonauci", async (req, res) => {
+  if (req.query.password !== "KtoNieSkaczeTenZTaheeboHopHopHop") {
+    res.status(404).send("bad password");
+    return;
+  }
   const collection = await loadDB("reservations");
   const reservations = await collection.find({}).toArray();
   res.status(200).send(reservations);
 });
 
 router.put("/reservations-for-czarkonauci", async (req, res) => {
+  if (req.query.password !== "KtoNieSkaczeTenZTaheeboHopHopHop") {
+    res.status(404).send("bad password");
+    return;
+  }
   const collection = await loadDB("reservations");
   const reservations = await collection.update(
     {
@@ -50,6 +58,10 @@ router.put("/reservations-for-czarkonauci", async (req, res) => {
 });
 
 router.delete("/reservations-for-czarkonauci", async (req, res) => {
+  if (req.query.password !== "KtoNieSkaczeTenZTaheeboHopHopHop") {
+    res.status(404).send("bad password");
+    return;
+  }
   const collection = await loadDB("reservations");
   const reservations = await collection.deleteOne({
     _id: new mongodb.ObjectID(req.body.id)
@@ -58,6 +70,10 @@ router.delete("/reservations-for-czarkonauci", async (req, res) => {
 });
 
 router.post("/reservations-for-czarkonauci", async (req, res) => {
+  if (req.query.password !== "KtoNieSkaczeTenZTaheeboHopHopHop") {
+    res.status(404).send("bad password");
+    return;
+  }
   const collection = await loadDB("reservations");
   await collection.insertOne({
     date: req.body.day,
@@ -91,6 +107,10 @@ router.get("/tea-available", async (req, res) => {
 });
 
 router.put("/tea-available", async (req, res) => {
+  if (req.query.password !== "KtoNieSkaczeTenZTaheeboHopHopHop") {
+    res.status(404).send("bad password");
+    return;
+  }
   const collection = await loadDB("teas");
   const tea = await collection.update(
     {
