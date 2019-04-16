@@ -125,4 +125,50 @@ router.put("/tea-available", async (req, res) => {
   res.status(201).send(tea);
 });
 
+// do wersji demo - bez hasła
+router.get("/demo-version", async (req, res) => {
+  const collection = await loadDB("reservations-sheet-demo");
+  const reservations = await collection.find({}).toArray();
+  res.status(200).send(reservations);
+});
+
+router.put("/demo-version", async (req, res) => {
+  const collection = await loadDB("reservations-sheet-demo");
+  const reservations = await collection.update(
+    {
+      _id: new mongodb.ObjectID(req.body.id)
+    },
+    {
+      $set: {
+        date: req.body.day,
+        hour: req.body.hour,
+        name: req.body.name,
+        table: req.body.table,
+        guests: req.body.guests
+      }
+    }
+  );
+  res.status(201).send(reservations);
+});
+
+router.delete("/demo-version", async (req, res) => {
+  const collection = await loadDB("reservations-sheet-demo");
+  const reservations = await collection.deleteOne({
+    _id: new mongodb.ObjectID(req.body.id)
+  });
+  res.status(200).send(reservations);
+});
+
+router.post("/demo-version", async (req, res) => {
+  const collection = await loadDB("reservations-sheet-demo");
+  await collection.insertOne({
+    date: req.body.day,
+    hour: req.body.hour,
+    name: req.body.name,
+    table: req.body.table,
+    guests: req.body.guests
+  });
+  res.status(201).send(req.body.name);
+});
+
 module.exports = router;
