@@ -5,6 +5,14 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.send("Hello Word");
 });
+
+let globalSocket;
+function setSocketIo(io) {
+  io.on("connect", socket => {
+    globalSocket = io;
+    // socket.broadcast.emit("message", "new connected");
+  })
+}
 async function loadDB(collectionName) {
   const client = await mongodb.MongoClient.connect(
     "mongodb://heroku_blbg8v1d:mqt4qpfkpned9r9mnk189v8f84@ds063439.mlab.com:63439/heroku_blbg8v1d",
@@ -54,6 +62,7 @@ router.put("/reservations-for-czarkonauci", async (req, res) => {
       }
     }
   );
+  globalSocket.emit('change', 'change reservation');
   res.status(201).send(reservations);
 });
 
@@ -66,6 +75,7 @@ router.delete("/reservations-for-czarkonauci", async (req, res) => {
   const reservations = await collection.deleteOne({
     _id: new mongodb.ObjectID(req.body.id)
   });
+  globalSocket.emit('change', 'delete reservation');
   res.status(200).send(reservations);
 });
 
@@ -82,6 +92,7 @@ router.post("/reservations-for-czarkonauci", async (req, res) => {
     table: req.body.table,
     guests: req.body.guests
   });
+  globalSocket.emit('change', 'new reservation');
   res.status(201).send(req.body.name);
 });
 
@@ -171,4 +182,4 @@ router.post("/demo-version", async (req, res) => {
   res.status(201).send(req.body.name);
 });
 
-module.exports = router;
+module.exports = { router, setSocketIo };
