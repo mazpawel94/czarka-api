@@ -15,12 +15,12 @@ function setSocketIo(io) {
 }
 async function loadDB(collectionName) {
   const client = await mongodb.MongoClient.connect(
-    "mongodb://heroku_blbg8v1d:mqt4qpfkpned9r9mnk189v8f84@ds063439.mlab.com:63439/heroku_blbg8v1d",
+    "mongodb+srv://czarka:ZXqnEiX7RdV3wt7l@cluster0.y8t8a.mongodb.net/reservations?retryWrites=true&w=majority",
     {
       useNewUrlParser: true
     }
   );
-  return client.db("heroku_blbg8v1d").collection(`${collectionName}`);
+  return client.db("reservations").collection(`${collectionName}`);
 }
 
 router.get("/reservations", async (req, res) => {
