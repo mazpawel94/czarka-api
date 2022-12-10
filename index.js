@@ -10,9 +10,13 @@ const server = http.createServer(app);
 
 const io = socketio(server);
 
-
 app.use(bodyParser.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 setSocketIo(io);
 app.use("/", router);
 const port = process.env.PORT || 5000;
